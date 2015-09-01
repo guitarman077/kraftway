@@ -1,5 +1,5 @@
 -- Вывод пользователей и их гео данных
--- прим. т.к как нет условия надо ли выводить юзеров не имеющих гео данных и естьли и могут ли быть ли быть таковые вообще используем оператор JOIN 
+-- прим: т.к как нет условия надо ли выводить юзеров не имеющих гео данных и естьли и могут ли быть ли быть таковые вообще используем оператор JOIN 
 SELECT 
   u.name,
   u.email, 
@@ -12,4 +12,13 @@ JOIN Country AS c ON l.id_country = c.id
 JOIN Region AS r ON l.id_region = r.id
 JOIN City AS ci ON l.id_city = ci.id
 
--- Топ 5 стран
+-- Топ 5 стран (по количеству житеелй)
+-- прим: используем LEFT JOIN на случай если стран имеющих жителей буедт менее 5
+
+SELECT
+  c.country
+FROM Country AS c 
+LEFT JOIN Location AS l ON c.id = l.id_country  
+GROUP BY l.id_country
+ORDER BY COUNT(l.id) DESC, c.country -- сортируем по c.country чтобы страны с равным количеством жителей выводились по алфавиту 
+LIMIT 5
