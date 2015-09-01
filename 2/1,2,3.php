@@ -15,10 +15,16 @@ Doctrine_Query::create()
 
 // Топ 5 стран (по количеству житеелй)
 Doctrine_Query::create()
-    ->select('c.country, COUNT(l.id)')
+    ->select('c.country')
     ->from('Country c, c.Location l')
     ->groupBy('l.id_country')
     ->orderBy('COUNT(l.id)')
     ->limit(5)
     ->excute();
 
+// Города в которых не проживают жители
+Doctrine_Query::create()
+    ->select('c.city')
+    ->from('City c, c.Location l')
+    ->where('l.id IS NULL')
+    ->execute();
